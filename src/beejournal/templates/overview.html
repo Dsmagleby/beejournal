@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-w-screen">
+    <div>
+        <br>
+        <div class="flex items-center space-x-4">
+            <h1 class="text-4xl">Oversigt</h1>
+        </div>
+    </div>
+
+    <div class="w-full px-4 md:px-20">
+        <div role="tablist" class="tabs tabs-lifted tabs-lg my-14 flex-nowrap whitespace-nowrap">
+            {% for item in overview_data %}
+                <input 
+                    type="radio" name="my_tabs_2" role="tab" class="tab" 
+                    aria-label="{{ item.place.name }} ({{item.place.hive_count}})"
+                    {% if forloop.first %}checked="checked"{% endif %}
+                />
+                <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nummer</th>
+                                <th>Rammer</th>
+                                <th>Dronning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                
+                        {% for hive in item.hives %}
+                            <tr class="hover" onclick="toggleDescription('{{hive.id}}')">
+                                <td>{{ hive.number }}</td>
+                                <td>{{ hive.frames }}</td>
+                                <td>{{ hive.queen }}</td>
+                            </tr>
+                            {% if hive.get_inspections %}
+                                <tr id="{{hive.id}}Description" class="hidden">
+                                    <td colspan="3">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Dato</th>
+                                                    <th>Kommentar</th>
+                                                    <th>Larver</th>
+                                                    <th>Æg</th>
+                                                    <th>Humør</th>
+                                                    <th>Størrelse</th>
+                                                    <th>Varroa</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for inspection in hive.get_inspections %}
+                                                    <tr>
+                                                        <td>{{ inspection.date|date:'d/m-Y' }}</td>
+                                                        <td>{{ inspection.comment }}</td>
+                                                        <td>{{ inspection.larva }}</td>
+                                                        <td>{{ inspection.egg }}</td>
+                                                        <td>{{ inspection.mood }}</td>
+                                                        <td>{{ inspection.size }}</td>
+                                                        <td>{{ inspection.varroa }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+            <span class="tab"></span>
+        </div>
+    </div>
+</div>
+
+<script>
+  let activeDescriptionId = null;
+
+  function toggleDescription(hiveId) {
+    const descriptionRow = document.getElementById(`${hiveId}Description`);
+
+    if (activeDescriptionId !== null && activeDescriptionId !== hiveId) {
+      const activeDescriptionRow = document.getElementById(`${activeDescriptionId}Description`);
+      activeDescriptionRow.classList.add('hidden');
+    }
+
+    descriptionRow.classList.toggle('hidden');
+
+    if (!descriptionRow.classList.contains('hidden')) {
+      activeDescriptionId = hiveId;
+    } else {
+      activeDescriptionId = null;
+    }
+  }
+</script>
+{% endblock content %}
+

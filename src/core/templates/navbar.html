@@ -1,0 +1,43 @@
+<div class="navbar bg-base-200">
+    <div class="flex-1">
+        <ul class="menu menu-horizontal px-1">
+          <li><a href="{% url 'overview' %}">Oversigt</a></li>
+          <li><a href="{% url 'place_list' %}">Lokationer</a></li>
+          <li><a href="{% url 'hive_list' %}">Stader</a></li>
+          <li><a href="{% url 'queen_list' %}">Dronninger</a></li>
+          <li><a href="{% url 'inspection_list' %}">Inspektioner</a></li>
+          <!--
+          <li>
+            <details>
+              <summary>Parent</summary>
+              <ul class="bg-base-100 rounded-t-none p-2">
+                <li><a>Link 1</a></li>
+                <li><a>Link 2</a></li>
+              </ul>
+            </details>
+          </li>
+          -->
+        </ul>
+    </div>
+    <div class="flex-none">
+    <ul class="menu menu-horizontal px-1">
+        <li>
+        <details>
+            <summary>{% if user.username %}{{ user.username }}{% else %}Profile{% endif %}</summary>
+            <ul class="bg-base-100 rounded-t-none p-2">
+            {% if user.username %}
+              <li>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit">Log Ud</button>
+                </form>
+              </li>
+            {% else %}
+              <li><a href="{% url 'login' %}">Log Ind</a></li>
+            {% endif %}
+            </ul>
+        </details>
+        </li>
+    </ul>
+    </div>
+</div>

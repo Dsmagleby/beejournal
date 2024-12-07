@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-w-screen">
+    <div>
+        <br>
+        <div class="flex items-center space-x-4">
+            <h1 class="text-4xl">Stader</h1>
+            <a href="{% url 'hive_create' %}" class="btn btn-primary">Opret Stade</a>
+        </div>
+    </div>
+    <div class="w-full px-4 md:px-20">
+        <table class="table">
+        <thead>
+            <tr>
+                <th>Nummer</th>
+                <th>Rammer</th>
+                <th>Lokation</th>
+                <th>Dronning</th>
+                <th class="text-right">Handlinger</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for hive in object_list %}
+            <tr class="hover">
+                <td>{{ hive.number }}</td>
+                <td>{{ hive.frames }}</td>
+                <td>{{ hive.place }}</td>
+                <td>{{ hive.queen }}</td>
+                <td class="text-right">
+                    <a href="{% url 'hive_update' hive.id %}" class="btn btn-sm btn-secondary">Rediger</a>
+                    <a href="{% url 'queen_create' hive.id %}" class="btn btn-sm btn-secondary">Tilføj Dronning</a>
+                    <a href="{% url 'inspection_create' hive.id %}" class="btn btn-sm btn-secondary">Tilføj Inspektion</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

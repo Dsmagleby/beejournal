@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer utilities {
+    input[type='radio'] {
+        background-color: transparent;
+    }
+    input[type='radio']:checked {
+        background-image: None; 
+    }
+};
