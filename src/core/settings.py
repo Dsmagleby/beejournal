@@ -63,7 +63,11 @@ MIDDLEWARE = [
 ]
 
 TAILWIND_APP_NAME = 'theme'
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+if DEBUG:
+    NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+else:
+    from shutil import which
+    NPM_BIN_PATH = which("npm")
 ROOT_URLCONF = 'core.urls'
 
 INTERNAL_IPS = [
