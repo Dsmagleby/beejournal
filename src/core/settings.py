@@ -119,9 +119,6 @@ else:
             'USER': os.getenv("DB_USER"),
             'PASSWORD': os.getenv("DB_PASSWORD"),
             'HOST': os.getenv("DB_HOST"),
-            "OPTIONS": {
-                "init_command": "SET innodb_strict_mode=1",
-            },
         }
     }
 
