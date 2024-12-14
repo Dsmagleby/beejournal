@@ -19,17 +19,7 @@
             </tr>
         </thead>
         <tbody>
-
-        {% for place in object_list %}
-            <tr class="hover">
-                <td>{{ place.name }}</td>
-                <td>{{ place.hive_count }}</td>
-                <td class="text-right">
-                    <a href="{% url 'place_update' place.id %}" class="btn btn-sm btn-secondary">Rediger</a>
-                    <a href="{% url 'hive_create' place.id %}" class="btn btn-sm btn-secondary">Tilføj Stade</a>
-                </td>
-            </tr>
-        {% endfor %}
+            {% include 'htmx/place_list_row.html' %}
         </tbody>
         </table>
     </div>

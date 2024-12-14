@@ -50,9 +50,15 @@ class CustomUpdateView(UpdateView):
 class PlaceListView(LoginRequiredMixin, ListView):
     model = Place
     template_name = "place_list.html"
+    paginate_by = 20
 
     def get_queryset(self):
         return Place.objects.filter(user=self.request.user)
+
+    def get_template_names(self, *args, **kwargs):
+        if self.request.htmx:
+            return 'htmx/place_list_row.html'
+        return self.template_name
 
 class PlaceCreateView(LoginRequiredMixin, CustomCreateView):
     model = Place
@@ -72,9 +78,15 @@ class PlaceUpdateView(LoginRequiredMixin, CustomUpdateView):
 class HiveListView(LoginRequiredMixin, ListView):
     model = Hive
     template_name = "hive_list.html"
+    paginate_by = 20
 
     def get_queryset(self):
         return Hive.objects.filter(user=self.request.user)
+
+    def get_template_names(self, *args, **kwargs):
+        if self.request.htmx:
+            return 'htmx/hive_list_row.html'
+        return self.template_name
 
 class HiveCreateView(LoginRequiredMixin, CustomCreateView):
     model = Hive
@@ -102,9 +114,15 @@ class HiveUpdateView(LoginRequiredMixin, CustomUpdateView):
 class QueenListView(LoginRequiredMixin, ListView):
     model = Queen
     template_name = "queen_list.html"
+    paginate_by = 20
 
     def get_queryset(self):
         return Queen.objects.filter(user=self.request.user)
+
+    def get_template_names(self, *args, **kwargs):
+        if self.request.htmx:
+            return 'htmx/queen_list_row.html'
+        return self.template_name
 
 class QueenCreateView(LoginRequiredMixin, CustomCreateView):
     model = Queen
@@ -132,9 +150,15 @@ class QueenUpdateView(LoginRequiredMixin, CustomUpdateView):
 class InspectionListView(LoginRequiredMixin, ListView):
     model = Inspection
     template_name = "inspection_list.html"
+    paginate_by = 20
 
     def get_queryset(self):
         return Inspection.objects.filter(user=self.request.user)
+
+    def get_template_names(self, *args, **kwargs):
+        if self.request.htmx:
+            return 'htmx/inspection_list_row.html'
+        return self.template_name
 
 class InspectionCreateView(LoginRequiredMixin, CustomCreateView):
     model = Inspection

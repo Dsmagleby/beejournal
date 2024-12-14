@@ -25,22 +25,7 @@
             </tr>
         </thead>
         <tbody>
-
-        {% for inspection in object_list %}
-            <tr class="hover">
-                <td>{{ inspection.hive }}</td>
-                <td>{{ inspection.date|date:'d/m-Y' }}</td>
-                <td>{{ inspection.comment }}</td>
-                <td>{{ inspection.larva }}</td>
-                <td>{{ inspection.egg }}</td>
-                <td>{{ inspection.mood }}</td>
-                <td>{{ inspection.size }}</td>
-                <td>{{ inspection.varroa }}</td>
-                <td class="text-right">
-                    <a href="{% url 'inspection_update' inspection.id %}" class="btn btn-sm btn-secondary">Rediger</a>
-                </td>
-            </tr>
-        {% endfor %}
+            {% include 'htmx/inspection_list_row.html' %}
         </tbody>
         </table>
     </div>

@@ -1,0 +1,22 @@
+{% for hive in object_list %}
+    {% if forloop.last and page_obj.has_next %}
+        <tr hx-get="{% url 'hive_list' %}?page={{ page_obj.number|add:1 }}"
+            hx-trigger="revealed"
+            hx-swap="afterend"
+            class="hover"
+        >
+    {% else %}
+        <tr class="hover">
+    {% endif %}
+        <tr class="hover">
+            <td>{{ hive.number }}</td>
+            <td>{{ hive.frames }}</td>
+            <td>{{ hive.place }}</td>
+            <td>{{ hive.queen }}</td>
+            <td class="text-right">
+                <a href="{% url 'hive_update' hive.id %}" class="btn btn-sm btn-secondary">Rediger</a>
+                <a href="{% url 'queen_create' hive.id %}" class="btn btn-sm btn-secondary">Tilføj Dronning</a>
+                <a href="{% url 'inspection_create' hive.id %}" class="btn btn-sm btn-secondary">Tilføj Inspektion</a>
+            </td>
+        </tr>
+{% endfor %}

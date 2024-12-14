@@ -1,0 +1,19 @@
+{% for place in object_list %}
+    {% if forloop.last and page_obj.has_next %}
+        <tr hx-get="{% url 'place_list' %}?page={{ page_obj.number|add:1 }}"
+            hx-trigger="revealed"
+            hx-swap="afterend"
+            class="hover"
+        >
+    {% else %}
+        <tr class="hover">
+    {% endif %}
+        <tr class="hover">
+            <td>{{ place.name }}</td>
+            <td>{{ place.hive_count }}</td>
+            <td class="text-right">
+                <a href="{% url 'place_update' place.id %}" class="btn btn-sm btn-secondary">Rediger</a>
+                <a href="{% url 'hive_create' place.id %}" class="btn btn-sm btn-secondary">Tilføj Stade</a>
+            </td>
+        </tr>
+{% endfor %}

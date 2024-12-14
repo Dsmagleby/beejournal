@@ -1,0 +1,23 @@
+{% for inspection in object_list %}
+    {% if forloop.last and page_obj.has_next %}
+        <tr hx-get="{% url 'inspection_list' %}?page={{ page_obj.number|add:1 }}"
+            hx-trigger="revealed"
+            hx-swap="afterend"
+            class="hover"
+        >
+    {% else %}
+        <tr class="hover">
+    {% endif %}
+        <td>{{ inspection.hive }}</td>
+        <td>{{ inspection.date|date:'d/m-Y' }}</td>
+        <td>{{ inspection.comment }}</td>
+        <td>{{ inspection.larva }}</td>
+        <td>{{ inspection.egg }}</td>
+        <td>{{ inspection.mood }}</td>
+        <td>{{ inspection.size }}</td>
+        <td>{{ inspection.varroa }}</td>
+        <td class="text-right">
+            <a href="{% url 'inspection_update' inspection.id %}" class="btn btn-sm btn-secondary">Rediger</a>
+        </td>
+    </tr>
+{% endfor %}

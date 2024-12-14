@@ -1,0 +1,21 @@
+{% for queen in object_list %}
+    {% if forloop.last and page_obj.has_next %}
+        <tr hx-get="{% url 'queen_list' %}?page={{ page_obj.number|add:1 }}"
+            hx-trigger="revealed"
+            hx-swap="afterend"
+            class="hover"
+        >
+    {% else %}
+        <tr class="hover">
+    {% endif %}
+        <tr class="hover">
+            <td>{{ queen.hive }}</td>
+            <td>{{ queen.date|date:'d/m-Y' }}</td>
+            <td>{{ queen.comment }}</td>
+            <td>{{ queen.color }}</td>
+            <td>{{ queen.marked }}</td>
+            <td class="text-right">
+                <a href="{% url 'queen_update' queen.id %}" class="btn btn-sm btn-secondary">Rediger</a>
+            </td>
+        </tr>
+{% endfor %}

@@ -21,20 +21,7 @@
             </tr>
         </thead>
         <tbody>
-
-        {% for hive in object_list %}
-            <tr class="hover">
-                <td>{{ hive.number }}</td>
-                <td>{{ hive.frames }}</td>
-                <td>{{ hive.place }}</td>
-                <td>{{ hive.queen }}</td>
-                <td class="text-right">
-                    <a href="{% url 'hive_update' hive.id %}" class="btn btn-sm btn-secondary">Rediger</a>
-                    <a href="{% url 'queen_create' hive.id %}" class="btn btn-sm btn-secondary">Tilføj Dronning</a>
-                    <a href="{% url 'inspection_create' hive.id %}" class="btn btn-sm btn-secondary">Tilføj Inspektion</a>
-                </td>
-            </tr>
-        {% endfor %}
+            {% include 'htmx/hive_list_row.html' %}
         </tbody>
         </table>
     </div>

@@ -43,7 +43,7 @@ class Hive(BaseModel):
 
     @property
     def get_inspections(self):
-        return self.inspections.all()
+        return self.inspections.all()[:5]
 
 class Queen(BaseModel):
     hive = models.ForeignKey(
@@ -56,11 +56,11 @@ class Queen(BaseModel):
     date = models.DateTimeField()
     comment = models.TextField(blank=True, null=True)
     CHOICES = (
-        ("white", "White"),
-        ("yellow", "Yellow"),
-        ("red", "Red"),
-        ("green", "Green"),
-        ("blue", "Blue"),
+        ("white", "Hvid"),
+        ("yellow", "Gul"),
+        ("red", "Rød"),
+        ("green", "Grøn"),
+        ("blue", "Blå"),
     )
     color = models.CharField(max_length=8, choices=CHOICES, blank=True, null=True)
     marked = models.BooleanField(default=False)

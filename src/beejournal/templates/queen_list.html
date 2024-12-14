@@ -22,19 +22,7 @@
             </tr>
         </thead>
         <tbody>
-
-        {% for queen in object_list %}
-            <tr class="hover">
-                <td>{{ queen.hive }}</td>
-                <td>{{ queen.date|date:'d/m-Y' }}</td>
-                <td>{{ queen.comment }}</td>
-                <td>{{ queen.color }}</td>
-                <td>{{ queen.marked }}</td>
-                <td class="text-right">
-                    <a href="{% url 'queen_update' queen.id %}" class="btn btn-sm btn-secondary">Rediger</a>
-                </td>
-            </tr>
-        {% endfor %}
+            {% include 'htmx/queen_list_row.html' %}
         </tbody>
         </table>
     </div>

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django_browser_reload',
     'simple_history',
     'django_extensions',
+    'django_htmx',
     # Local apps
     'beejournal',
     'core',
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_browser_reload.middleware.BrowserReloadMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 TAILWIND_APP_NAME = 'theme'

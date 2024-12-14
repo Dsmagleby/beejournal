@@ -1,11 +1,13 @@
 <div class="navbar bg-base-200">
     <div class="flex-1">
         <ul class="menu menu-horizontal px-1">
-          <li><a href="{% url 'overview' %}">Oversigt</a></li>
-          <li><a href="{% url 'place_list' %}">Lokationer</a></li>
-          <li><a href="{% url 'hive_list' %}">Stader</a></li>
-          <li><a href="{% url 'queen_list' %}">Dronninger</a></li>
-          <li><a href="{% url 'inspection_list' %}">Inspektioner</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'overview' %}">Oversigt</a></li>
+            <li><a href="{% url 'place_list' %}">Lokationer</a></li>
+            <li><a href="{% url 'hive_list' %}">Stader</a></li>
+            <li><a href="{% url 'queen_list' %}">Dronninger</a></li>
+            <li><a href="{% url 'inspection_list' %}">Inspektioner</a></li>
+          {% endif %}
           <!--
           <li>
             <details>
