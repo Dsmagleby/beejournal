@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="{% static 'js/htmx.min.js' %}" defer></script>
     {% tailwind_css %}
 </head>
@@ -15,6 +16,16 @@
         {% include 'navbar.html' %}
         {% block content %}
         {% endblock content %}
+        <!-- 
+            Tailwindcss adds a large svg arrow image under every select box
+            this removes them again.
+        -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const svgs = document.querySelectorAll('.relative .pointer-events-none svg');
+                svgs.forEach(svg => svg.remove());
+            });
+        </script>
     </div>
     {% endblock body %}
 </body>

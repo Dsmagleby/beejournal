@@ -1,4 +1,6 @@
 from django import forms
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Row, Column, Field
 
 from beejournal.models import Place, Hive, Queen, Inspection
 
@@ -36,7 +38,7 @@ class QueenForm(forms.ModelForm):
         model = Queen
         fields = ['hive', 'date', 'comment', 'color', 'marked']
         widgets = {
-            'date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'date': forms.DateInput(attrs={'type': 'date'}),
         }
         labels = {
             'hive': 'Stade',
@@ -55,9 +57,9 @@ class QueenForm(forms.ModelForm):
 class InspectionForm(forms.ModelForm):
     class Meta:
         model = Inspection
-        fields = ['hive', 'date', 'comment', 'larva', 'egg', 'mood', 'size', 'varroa']
+        fields = ['hive', 'date', 'comment', 'larva', 'egg', 'queen', 'mood', 'size', 'varroa']
         widgets = {
-            'date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'date': forms.DateInput(attrs={'type': 'date'}),
         }
         labels = {
             'hive': 'Stade',
@@ -65,6 +67,7 @@ class InspectionForm(forms.ModelForm):
             'comment': 'Kommentar',
             'larva': 'Larver',
             'egg': 'Æg',
+            'queen': 'Dronning',
             'mood': 'Humør',
             'size': 'Størrelse',
             'varroa': 'Varroa',

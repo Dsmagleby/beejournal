@@ -20,3 +20,7 @@ class BaseModel(models.Model):
     @property
     def class_name(self):
         return self.__class__.__name__
+
+    @property
+    def class_name_danish(self):
+        return self.__class__.__name__

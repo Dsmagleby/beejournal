@@ -1,3 +1,4 @@
+{% load custom_filters %}
 {% for inspection in object_list %}
     {% if forloop.last and page_obj.has_next %}
         <tr hx-get="{% url 'inspection_list' %}?page={{ page_obj.number|add:1 }}"
@@ -11,8 +12,9 @@
         <td>{{ inspection.hive }}</td>
         <td>{{ inspection.date|date:'d/m-Y' }}</td>
         <td>{{ inspection.comment }}</td>
-        <td>{{ inspection.larva }}</td>
-        <td>{{ inspection.egg }}</td>
+        <td>{{ inspection.larva|display_boolean_icon }}</td>
+        <td>{{ inspection.egg|display_boolean_icon }}</td>
+        <td>{{ inspection.queen|display_boolean_icon }}</td>
         <td>{{ inspection.mood }}</td>
         <td>{{ inspection.size }}</td>
         <td>{{ inspection.varroa }}</td>

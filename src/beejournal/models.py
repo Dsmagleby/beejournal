@@ -17,6 +17,10 @@ class Place(BaseModel):
     def hive_count(self):
         return self.hives.count()
 
+    @property
+    def class_name_danish(self):
+        return "Sted"
+
     def get_absolute_url(self):
         return reverse("place_list")
     
@@ -33,6 +37,10 @@ class Hive(BaseModel):
     
     def __str__(self):
         return self.number + " - " + self.place.__str__()
+
+    @property
+    def class_name_danish(self):
+        return "Stade"
     
     def get_absolute_url(self):
         return reverse("hive_list")
@@ -53,7 +61,7 @@ class Queen(BaseModel):
         blank=True,
         null=True,
     )
-    date = models.DateTimeField()
+    date = models.DateField()
     comment = models.TextField(blank=True, null=True)
     CHOICES = (
         ("white", "Hvid"),
@@ -70,6 +78,10 @@ class Queen(BaseModel):
     
     def __str__(self):
         return self.hive.__str__() + " - " + str(self.color)
+
+    @property
+    def class_name_danish(self):
+        return "Dronning"
     
     def get_absolute_url(self):
         return reverse("queen_list")
@@ -77,10 +89,11 @@ class Queen(BaseModel):
 
 class Inspection(BaseModel):
     hive = models.ForeignKey("beejournal.Hive", related_name='inspections', on_delete=models.PROTECT)
-    date = models.DateTimeField()
+    date = models.DateField()
     comment = models.TextField(blank=True, null=True)
-    larva = models.IntegerField(blank=True, null=True)
-    egg = models.IntegerField(blank=True, null=True)
+    larva = models.BooleanField(default=False)
+    egg = models.BooleanField(default=False)
+    queen = models.BooleanField(default=False)
     mood = models.IntegerField(blank=True, null=True)
     size = models.IntegerField(blank=True, null=True)
     varroa = models.IntegerField(blank=True, null=True)
@@ -90,6 +103,10 @@ class Inspection(BaseModel):
     
     def __str__(self):
         return self.hive.__str__() + " - " + self.date.strftime("%Y-%m-%d")
+
+    @property
+    def class_name_danish(self):
+        return "Inspektion"
 
     def get_absolute_url(self):
         return reverse("inspection_list")

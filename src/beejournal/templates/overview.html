@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load custom_filters %}
 {% block content %}
 <div class="flex flex-col items-center justify-center min-w-screen">
     <div>
@@ -44,6 +44,7 @@
                                                     <th>Kommentar</th>
                                                     <th>Larver</th>
                                                     <th>Æg</th>
+                                                    <th>Dronning</th>
                                                     <th>Humør</th>
                                                     <th>Størrelse</th>
                                                     <th>Varroa</th>
@@ -54,8 +55,9 @@
                                                     <tr>
                                                         <td>{{ inspection.date|date:'d/m-Y' }}</td>
                                                         <td>{{ inspection.comment }}</td>
-                                                        <td>{{ inspection.larva }}</td>
-                                                        <td>{{ inspection.egg }}</td>
+                                                        <td>{{ inspection.larva|display_boolean_icon }}</td>
+                                                        <td>{{ inspection.egg|display_boolean_icon }}</td>
+                                                        <td>{{ inspection.queen|display_boolean_icon }}</td>
                                                         <td>{{ inspection.mood }}</td>
                                                         <td>{{ inspection.size }}</td>
                                                         <td>{{ inspection.varroa }}</td>

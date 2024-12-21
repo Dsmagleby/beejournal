@@ -10,7 +10,7 @@
     {% endif %}
         <tr class="hover">
             <td>{{ hive.number }}</td>
-            <td>{{ hive.frames }}</td>
+            <td>{{ hive.frames|default:"0" }}</td>
             <td>{{ hive.place }}</td>
             <td>{{ hive.queen }}</td>
             <td class="text-right">
