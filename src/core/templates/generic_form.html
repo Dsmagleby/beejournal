@@ -2,22 +2,14 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="flex items-center justify-center min-h-screen">
-    <div class="card bg-white text-primary-content w-96">
-        <div class="card-body">
-            <h2 class="card-title">{% if form.instance.id %}Opdater{% else %}Opret{% endif %} {{view.model.class_name_danish}}</h2>
-            <hr><br>
-
-            <form method="post">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <br>
-                <div>
-                    <button type="submit" class="btn btn-secondary" value="Submit">Send</button>
-                </div>
-            </form>
-
-        </div>
-    </div>
+<div class="w-full max-w-2xl mx-auto sm:px6 lg:px-8">
+    <br>
+    <h1 class="text-4xl font-bold mb-8">
+        {% if form.instance.id %}Opdater{% else %}Opret{% endif %} {{view.model.class_name_danish}}
+    </h1>
+    <form method="post">
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
 </div>
 {% endblock %}

@@ -24,6 +24,7 @@
                                 <th>Nummer</th>
                                 <th>Rammer</th>
                                 <th>Dronning</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,10 +34,13 @@
                                 <td>{{ hive.number }}</td>
                                 <td>{{ hive.frames }}</td>
                                 <td>{{ hive.queen }}</td>
+                                <td class="text-right">
+                                    <a href="{% url 'inspection_create' hive.id %}" class="btn btn-sm btn-secondary">Tilføj Inspektion</a>
+                                </td>
                             </tr>
                             {% if hive.get_inspections %}
                                 <tr id="{{hive.id}}Description" class="hidden">
-                                    <td colspan="3">
+                                    <td colspan="4">
                                         <table class="table">
                                             <thead>
                                                 <tr>

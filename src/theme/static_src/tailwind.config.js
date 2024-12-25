@@ -43,6 +43,21 @@ module.exports = {
          */
         // '../../**/*.py'
     ],
+    safelist: [
+        "bg-white-500",
+        "bg-yellow-500",
+        "bg-red-500",
+        "bg-green-500",
+        "bg-blue-500",
+        "bg-gray-500",
+        "md:w-[50%]",
+        "md:w-[33%]",
+        "md:flex",
+        "md:justify-between",
+        "md:mr-2",
+        "md:ml-2",
+        "my-2",
+    ],
     daisyui: {
         themes: [
             "light",

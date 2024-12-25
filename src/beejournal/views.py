@@ -57,7 +57,7 @@ class PlaceListView(LoginRequiredMixin, ListView):
 
     def get_template_names(self, *args, **kwargs):
         if self.request.htmx:
-            return 'htmx/place_list_row.html'
+            return 'htmx/place_list_table.html'
         return self.template_name
 
 class PlaceCreateView(LoginRequiredMixin, CustomCreateView):
@@ -85,7 +85,7 @@ class HiveListView(LoginRequiredMixin, ListView):
 
     def get_template_names(self, *args, **kwargs):
         if self.request.htmx:
-            return 'htmx/hive_list_row.html'
+            return 'htmx/hive_list_table.html'
         return self.template_name
 
 class HiveCreateView(LoginRequiredMixin, CustomCreateView):
@@ -121,7 +121,7 @@ class QueenListView(LoginRequiredMixin, ListView):
 
     def get_template_names(self, *args, **kwargs):
         if self.request.htmx:
-            return 'htmx/queen_list_row.html'
+            return 'htmx/queen_list_table.html'
         return self.template_name
 
 class QueenCreateView(LoginRequiredMixin, CustomCreateView):
@@ -157,7 +157,7 @@ class InspectionListView(LoginRequiredMixin, ListView):
 
     def get_template_names(self, *args, **kwargs):
         if self.request.htmx:
-            return 'htmx/inspection_list_row.html'
+            return 'htmx/inspection_list_table.html'
         return self.template_name
 
 class InspectionCreateView(LoginRequiredMixin, CustomCreateView):

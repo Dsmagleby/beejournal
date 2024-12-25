@@ -77,7 +77,7 @@ class Queen(BaseModel):
         ordering = ['-date']
     
     def __str__(self):
-        return self.hive.__str__() + " - " + str(self.color)
+        return self.hive.__str__() + " - " + str(self.get_color_display())
 
     @property
     def class_name_danish(self):

@@ -12,12 +12,12 @@
         <td>{{ inspection.hive }}</td>
         <td>{{ inspection.date|date:'d/m-Y' }}</td>
         <td>{{ inspection.comment }}</td>
-        <td>{{ inspection.larva|display_boolean_icon }}</td>
-        <td>{{ inspection.egg|display_boolean_icon }}</td>
-        <td>{{ inspection.queen|display_boolean_icon }}</td>
-        <td>{{ inspection.mood }}</td>
-        <td>{{ inspection.size }}</td>
-        <td>{{ inspection.varroa }}</td>
+        <td class="text-center">{{ inspection.larva|display_boolean_icon }}</td>
+        <td class="text-center">{{ inspection.egg|display_boolean_icon }}</td>
+        <td class="text-center">{{ inspection.queen|display_boolean_icon }}</td>
+        <td class="text-center">{{ inspection.mood }}</td>
+        <td class="text-center">{{ inspection.size }}</td>
+        <td class="text-center">{{ inspection.varroa }}</td>
         <td class="text-right">
             <a href="{% url 'inspection_update' inspection.id %}" class="btn btn-sm btn-secondary">Rediger</a>
         </td>

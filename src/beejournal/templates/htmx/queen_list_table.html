@@ -13,12 +13,12 @@
             <td>{{ queen.hive }}</td>
             <td>{{ queen.date|date:'d/m-Y' }}</td>
             <td>{{ queen.comment }}</td>
-            <td>
+            <td class="text-center">
                 <div class="badge {{ queen.color|display_queen_color }}">
                     {{ queen.get_color_display }}
                 </div>
             </td>
-            <td>{{ queen.marked|display_boolean_icon }}</td>
+            <td class="text-center">{{ queen.marked|display_boolean_icon }}</td>
             <td class="text-right">
                 <a href="{% url 'queen_update' queen.id %}" class="btn btn-sm btn-secondary">Rediger</a>
             </td>
