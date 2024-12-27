@@ -10,7 +10,7 @@
     {% endif %}
         <tr class="hover">
             <td>{{ place.name }}</td>
-            <td>{{ place.hive_count }}</td>
+            <td class="text-center">{{ place.hive_count }}</td>
             <td class="text-right">
                 <a href="{% url 'place_update' place.id %}" class="btn btn-sm btn-secondary">Rediger</a>
                 <a href="{% url 'hive_create' place.id %}" class="btn btn-sm btn-secondary">Tilføj Stade</a>

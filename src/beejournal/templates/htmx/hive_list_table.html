@@ -1,3 +1,5 @@
+{% load custom_filters %}
+
 {% for hive in object_list %}
     {% if forloop.last and page_obj.has_next %}
         <tr hx-get="{% url 'hive_list' %}?page={{ page_obj.number|add:1 }}"
@@ -12,7 +14,9 @@
             <td>{{ hive.number }}</td>
             <td>{{ hive.frames|default:"0" }}</td>
             <td>{{ hive.place }}</td>
-            <td>{{ hive.queen }}</td>
+            <td class="text-center">
+                {{ hive.queen.color|queen_color_badge:hive.queen.get_color_display }}
+            </td>
             <td class="text-right">
                 <a href="{% url 'hive_update' hive.id %}" class="btn btn-sm btn-secondary">Rediger</a>
                 <a href="{% url 'queen_create' hive.id %}" class="btn btn-sm btn-secondary">Tilføj Dronning</a>
