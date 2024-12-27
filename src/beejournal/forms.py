@@ -18,7 +18,7 @@ class BaseModelForm(forms.ModelForm):
         self.helper = FormHelper()
         if not self.helper.layout:
             self.helper.layout = Layout(*self.fields.keys())
-        self.helper.layout.append(Submit('submit', 'Gem', css_class='btn btn-secondary my-2'))
+        self.helper.layout.append(Submit('submit', 'Gem', css_class='btn btn-secondary my-2 w-full'))
 
 
 class RangeSliderWidget(Widget):
@@ -98,7 +98,7 @@ class QueenForm(BaseModelForm):
             'comment',
             Field('color', template='layouts/inline_radio_select.html'),
             'marked',
-            Submit('submit', 'Gem', css_class='btn btn-secondary my-2'),
+            Submit('submit', 'Gem', css_class='btn btn-secondary my-2 w-full'),
         )
 
 
@@ -144,5 +144,5 @@ class InspectionForm(BaseModelForm):
             'mood',
             'size',
             'varroa',
-            Submit('submit', 'Gem', css_class='btn btn-secondary my-2'),
+            Submit('submit', 'Gem', css_class='btn btn-secondary my-2 w-full'),
         )   
