@@ -6,16 +6,8 @@ register = template.Library()
 
 @register.filter
 def display_queen_color(value):
-    if value == "white":
-        return "bg-white-500"
-    elif value == "yellow":
-        return "bg-yellow-500"
-    elif value == "red":
-        return "bg-red-500"
-    elif value == "green":
-        return "bg-green-500"
-    elif value == "blue":
-        return "bg-blue-500"
+    if value in ["white", "yellow", "red", "green", "blue"]:
+        return f"bg-{value}-500"
     else:
         return "bg-gray-500"
 

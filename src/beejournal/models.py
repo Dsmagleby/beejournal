@@ -25,7 +25,6 @@ class Place(BaseModel):
         return reverse("place_list")
     
 
-
 class Hive(BaseModel):
     number = models.CharField(max_length=8)
     frames = models.IntegerField(blank=True, null=True)
@@ -52,6 +51,7 @@ class Hive(BaseModel):
     @property
     def get_inspections(self):
         return self.inspections.all()[:5]
+
 
 class Queen(BaseModel):
     hive = models.ForeignKey(
@@ -82,10 +82,6 @@ class Queen(BaseModel):
     @property
     def class_name_danish(self):
         return "Dronning"
-
-    @classmethod
-    def get_color_choices(self):
-        return self.CHOICES
     
     def get_absolute_url(self):
         return reverse("queen_list")
@@ -98,9 +94,9 @@ class Inspection(BaseModel):
     larva = models.BooleanField(default=False)
     egg = models.BooleanField(default=False)
     queen = models.BooleanField(default=False)
-    mood = models.IntegerField(blank=True, null=True)
-    size = models.IntegerField(blank=True, null=True)
-    varroa = models.IntegerField(blank=True, null=True)
+    mood = models.IntegerField(default=0)
+    size = models.IntegerField(default=0)
+    varroa = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['-date']

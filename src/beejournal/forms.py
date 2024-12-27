@@ -1,4 +1,7 @@
 from django import forms
+from django.forms.widgets import Widget
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit, Field
 from beejournal.models import Place, Hive, Queen, Inspection
@@ -17,6 +20,26 @@ class BaseModelForm(forms.ModelForm):
             self.helper.layout = Layout(*self.fields.keys())
         self.helper.layout.append(Submit('submit', 'Gem', css_class='btn btn-secondary my-2'))
 
+
+class RangeSliderWidget(Widget):
+    def render(self, name, value, attrs=None, renderer=None):
+        # Render the HTML for the range slider
+        return mark_safe(render_to_string(
+                'widgets/range_slider.html',
+                {
+                    'name': name,
+                    'value': value,
+                    'min': 0,
+                    'max': 10,
+                },
+            )
+        )
+
+    def value_from_datadict(self, data, files, name):
+        # Extract the value from the submitted data
+        return int(data.get(name))
+
+
 class PlaceForm(BaseModelForm):
     class Meta:
         model = Place
@@ -28,6 +51,7 @@ class PlaceForm(BaseModelForm):
     def __init__(self, *args, **kwargs):
         _ = kwargs.pop('user')
         super().__init__(*args, **kwargs)
+
 
 class HiveForm(BaseModelForm):
     class Meta:
@@ -44,9 +68,10 @@ class HiveForm(BaseModelForm):
         super().__init__(*args, **kwargs)
         self.fields['place'].queryset = Place.objects.filter(user=user)
 
+
 class QueenForm(BaseModelForm):
     color = forms.ChoiceField(
-        choices=Queen.get_color_choices(),
+        choices=Queen.CHOICES,
         widget=forms.RadioSelect(),
     )
     class Meta:
@@ -83,6 +108,9 @@ class InspectionForm(BaseModelForm):
         fields = ['hive', 'date', 'comment', 'larva', 'egg', 'queen', 'mood', 'size', 'varroa']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
+            'mood': RangeSliderWidget(),
+            'size': RangeSliderWidget(),
+            'varroa': RangeSliderWidget(),
         }
         labels = {
             'hive': 'Stade',

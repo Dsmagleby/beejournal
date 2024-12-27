@@ -57,6 +57,7 @@ module.exports = {
         "md:mr-2",
         "md:ml-2",
         "my-2",
+        "btn-secondary",
     ],
     daisyui: {
         themes: [

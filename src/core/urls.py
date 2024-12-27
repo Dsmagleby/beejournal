@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include, re_path
 
@@ -87,6 +88,9 @@ urlpatterns = [
         beejournal.views.InspectionListView.as_view(),
         name='inspection_list',
     ),
-    # browser
-    path("__reload__/", include("django_browser_reload.urls")),
 ]
+
+if settings.DEBUG:
+    urlpatterns = [
+        path("__reload__/", include("django_browser_reload.urls")),
+    ] + urlpatterns

@@ -1,0 +1,11 @@
+<div class="slider-container flex items-center">
+    <span id="slider-value" class="mr-2 w-12 text-center px-2 py-1 border border-gray-300 rounded">{{ value }}</span>
+    <input id="minmax-range" type="range" name="{{ name }}" min="{{ min }}" max="{{ max }}" value="{{ value }}" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="updateSliderValue(this)">
+</div>
+
+<script>
+    function updateSliderValue(slider) {
+        var valueBox = slider.previousElementSibling;
+        valueBox.textContent = slider.value;
+    }
+</script>

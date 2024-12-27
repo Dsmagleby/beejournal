@@ -46,12 +46,12 @@
                                                 <tr>
                                                     <th>Dato</th>
                                                     <th>Kommentar</th>
-                                                    <th>Larver</th>
-                                                    <th>Æg</th>
-                                                    <th>Dronning</th>
-                                                    <th>Humør</th>
-                                                    <th>Størrelse</th>
-                                                    <th>Varroa</th>
+                                                    <th class="text-center">Larver</th>
+                                                    <th class="text-center">Æg</th>
+                                                    <th class="text-center">Dronning</th>
+                                                    <th class="text-center">Humør</th>
+                                                    <th class="text-center">Størrelse</th>
+                                                    <th class="text-center">Varroa</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -59,12 +59,12 @@
                                                     <tr>
                                                         <td>{{ inspection.date|date:'d/m-Y' }}</td>
                                                         <td>{{ inspection.comment }}</td>
-                                                        <td>{{ inspection.larva|display_boolean_icon }}</td>
-                                                        <td>{{ inspection.egg|display_boolean_icon }}</td>
-                                                        <td>{{ inspection.queen|display_boolean_icon }}</td>
-                                                        <td>{{ inspection.mood }}</td>
-                                                        <td>{{ inspection.size }}</td>
-                                                        <td>{{ inspection.varroa }}</td>
+                                                        <td class="text-center">{{ inspection.larva|display_boolean_icon }}</td>
+                                                        <td class="text-center">{{ inspection.egg|display_boolean_icon }}</td>
+                                                        <td class="text-center">{{ inspection.queen|display_boolean_icon }}</td>
+                                                        <td class="text-center">{{ inspection.mood }}</td>
+                                                        <td class="text-center">{{ inspection.size }}</td>
+                                                        <td class="text-center">{{ inspection.varroa }}</td>
                                                     </tr>
                                                 {% endfor %}
                                             </tbody>

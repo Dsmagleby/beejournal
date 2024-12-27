@@ -33,6 +33,7 @@ class CustomCreateView(CreateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+
 class CustomUpdateView(UpdateView):
     """
     Custom UpdateView that sets the user on the object before saving
@@ -47,6 +48,7 @@ class CustomUpdateView(UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+
 class PlaceListView(LoginRequiredMixin, ListView):
     model = Place
     template_name = "place_list.html"
@@ -60,6 +62,7 @@ class PlaceListView(LoginRequiredMixin, ListView):
             return 'htmx/place_list_table.html'
         return self.template_name
 
+
 class PlaceCreateView(LoginRequiredMixin, CustomCreateView):
     model = Place
     form_class = PlaceForm
@@ -68,6 +71,7 @@ class PlaceCreateView(LoginRequiredMixin, CustomCreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
 
 class PlaceUpdateView(LoginRequiredMixin, CustomUpdateView):
     model = Place
@@ -88,6 +92,7 @@ class HiveListView(LoginRequiredMixin, ListView):
             return 'htmx/hive_list_table.html'
         return self.template_name
 
+
 class HiveCreateView(LoginRequiredMixin, CustomCreateView):
     model = Hive
     form_class = HiveForm
@@ -104,6 +109,7 @@ class HiveCreateView(LoginRequiredMixin, CustomCreateView):
             place = Place.objects.filter(pk=place_id).first()
             initial['place'] = place if place else None
         return initial
+
 
 class HiveUpdateView(LoginRequiredMixin, CustomUpdateView):
     model = Hive
@@ -124,6 +130,7 @@ class QueenListView(LoginRequiredMixin, ListView):
             return 'htmx/queen_list_table.html'
         return self.template_name
 
+
 class QueenCreateView(LoginRequiredMixin, CustomCreateView):
     model = Queen
     form_class = QueenForm
@@ -140,6 +147,7 @@ class QueenCreateView(LoginRequiredMixin, CustomCreateView):
             hive = Hive.objects.filter(pk=hive_id).first()
             initial['hive'] = hive if hive else None
         return initial
+
 
 class QueenUpdateView(LoginRequiredMixin, CustomUpdateView):
     model = Queen
@@ -160,6 +168,7 @@ class InspectionListView(LoginRequiredMixin, ListView):
             return 'htmx/inspection_list_table.html'
         return self.template_name
 
+
 class InspectionCreateView(LoginRequiredMixin, CustomCreateView):
     model = Inspection
     form_class = InspectionForm
@@ -176,6 +185,7 @@ class InspectionCreateView(LoginRequiredMixin, CustomCreateView):
             hive = Hive.objects.filter(pk=hive_id).first()
             initial['hive'] = hive if hive else None
         return initial
+
 
 class InspectionUpdateView(LoginRequiredMixin, CustomUpdateView):
     model = Inspection
