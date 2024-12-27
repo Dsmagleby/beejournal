@@ -1,0 +1,38 @@
+<!-- 
+This is a custom layout for the crispy forms radio select widget.
+It is based on the bootstrap template, but uses tailwindcss classes.
+checkboxes has been hardcoded to show the colors selected in the choices for visual feedback.
+-->
+
+{% load crispy_forms_filters %}
+{% load l10n %}
+
+{% if field.is_hidden %}
+    {{ field }}
+{% else %}
+    <{% if tag %}{{ tag }}{% else %}div{% endif %} id="div_{{ field.auto_id }}" class="{% if wrapper_class %}{{ wrapper_class }} {% endif %}{% if field_class %}{{ field_class }}{% else %}mb-3{% endif %}">
+
+    {% if field.label %}
+        <label for="{{ field.id_for_label }}"  class="{% if label_class %}{{ label_class }}{% else %}block text-gray-700 text-sm font-bold mb-2 {% endif %}{% if not inline_class %} col-form-label{% endif %}{% if field.field.required %} requiredField{% endif %}">
+            {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+        </label>
+    {% endif %}
+
+    <div id="div_{{ field.auto_id }}" class="md:flex md:justify-between{% if wrapper_class %} {{ wrapper_class }}{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}">
+        {% for choice in field.field.choices %}
+            <label for="id_{{ field.html_name }}_{{ forloop.counter }}" class="{% if css_container.option_label %}{{ css_container.option_label }}{% else %}block text-gray-700{% endif %} mr-3">
+                <input type="radio" class="
+                    {% if choice.0 == 'red' %}text-red-500
+                    {% elif choice.0 == 'yellow' %}text-yellow-500
+                    {% elif choice.0 == 'green' %}text-green-500
+                    {% elif choice.0 == 'blue' %}text-blue-500
+                    {% elif choice.0 == 'white' %}text-black
+                    {% else %}{{ css_container.radioselect }}{% endif %}" 
+                    {% if choice.0|stringformat:"s" == field.value|default_if_none:""|stringformat:"s" %} checked="checked"{% endif %} 
+                    name="{{ field.html_name }}" id="id_{{ field.html_name }}_{{ forloop.counter }}" value="{{ choice.0|unlocalize }}" {{ field.field.widget.attrs|flatatt }}>
+                {{ choice.1|unlocalize }}
+            </label>
+        {% endfor %}
+    </div>
+    <br>
+{% endif %}

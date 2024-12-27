@@ -82,6 +82,10 @@ class Queen(BaseModel):
     @property
     def class_name_danish(self):
         return "Dronning"
+
+    @classmethod
+    def get_color_choices(self):
+        return self.CHOICES
     
     def get_absolute_url(self):
         return reverse("queen_list")

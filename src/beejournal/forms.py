@@ -1,6 +1,6 @@
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Div, Submit
+from crispy_forms.layout import Layout, Div, Submit, Field
 from beejournal.models import Place, Hive, Queen, Inspection
 
 
@@ -44,8 +44,11 @@ class HiveForm(BaseModelForm):
         super().__init__(*args, **kwargs)
         self.fields['place'].queryset = Place.objects.filter(user=user)
 
-
 class QueenForm(BaseModelForm):
+    color = forms.ChoiceField(
+        choices=Queen.get_color_choices(),
+        widget=forms.RadioSelect(),
+    )
     class Meta:
         model = Queen
         fields = ['hive', 'date', 'comment', 'color', 'marked']
@@ -64,6 +67,14 @@ class QueenForm(BaseModelForm):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
         self.fields['hive'].queryset = Hive.objects.filter(user=user)
+        self.helper.layout = Layout(
+            'hive',
+            'date',
+            'comment',
+            Field('color', template='layouts/inline_radio_select.html'),
+            'marked',
+            Submit('submit', 'Gem', css_class='btn btn-secondary my-2'),
+        )
 
 
 class InspectionForm(BaseModelForm):
