@@ -100,6 +100,12 @@ class HiveCreateView(LoginRequiredMixin, CustomCreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        frames_or_height = form.cleaned_data.get('frames_or_height')
+        frames_or_height_value = form.cleaned_data.get('frames_or_height_value')
+        if frames_or_height == 'frames':
+            form.instance.frames = frames_or_height_value
+        elif frames_or_height == 'height':
+            form.instance.height = frames_or_height_value
         return super().form_valid(form)
 
     def get_initial(self):
@@ -115,6 +121,20 @@ class HiveUpdateView(LoginRequiredMixin, CustomUpdateView):
     model = Hive
     form_class = HiveForm
     template_name = "generic_form.html"
+
+    def form_valid(self, form):
+        frames_or_height = form.cleaned_data.get('frames_or_height')
+        frames_or_height_value = form.cleaned_data.get('frames_or_height_value')
+        if frames_or_height == 'frames':
+            form.instance.frames = frames_or_height_value
+            form.instance.height = None
+        elif frames_or_height == 'height':
+            form.instance.height = frames_or_height_value
+            form.instance.frames = None
+        else:
+            form.instance.frames = None
+            form.instance.height = None
+        return super().form_valid(form)
 
 
 class QueenListView(LoginRequiredMixin, ListView):

@@ -23,7 +23,7 @@
                         <thead>
                             <tr>
                                 <th>Nummer</th>
-                                <th class="text-center">Rammer</th>
+                                <th class="text-center">Rammer / Kassser</th>
                                 <th class="text-center">Dronning</th>
                                 <th></th>
                             </tr>
@@ -33,9 +33,11 @@
                         {% for hive in item.hives %}
                             <tr class="hover" onclick="toggleDescription('{{hive.id}}')">
                                 <td>{{ hive.number }}</td>
-                                <td class="text-center">{{ hive.frames }}</td>
+                                <td class="text-center">{{ hive.frames_or_height|default:"0" }}</td>
                                 <td class="text-center">
-                                    {{ hive.queen.color|queen_color_badge:hive.queen.get_color_display }}
+                                    {% if hive.queen %}
+                                        {{ hive.queen.color|queen_color_badge:hive.queen.get_color_display }}
+                                    {% endif %}
                                 </td>
                                 <td class="text-right">
                                     <a href="{% url 'inspection_create' hive.id %}" class="btn btn-sm btn-secondary">Tilføj Inspektion</a>

@@ -1,0 +1,43 @@
+<div class="w-full inline-flex mt-4">
+    {% for choice_value, choice_label in choices %}
+        <button type="button" class="bg-gray-300 hover:bg-gray-400 active:bg-primary text-gray-800 font-bold w-1/2 {% if forloop.first %}rounded-l{% elif forloop.last %}rounded-r{% endif %} {% if value == choice_value %}bg-primary text-white{% elif not value and forloop.first %}bg-primary text-white{% else %}bg-gray-300 text-gray-800{% endif %}"
+                onclick="selectOption('{{ name }}', '{{ choice_value }}', this)">
+            {{ choice_label }}
+        </button>
+    {% endfor %}
+    <input type="hidden" id="{{ name }}" name="{{ name }}" value="{{ value|default:choices.0.0 }}">
+</div>
+
+<script>
+    function selectOption(name, value, button) {
+        var hiddenInput = document.getElementById(name);
+        var buttons = button.parentElement.getElementsByTagName('button');
+
+        if (hiddenInput.value === value) {
+            // Deactivate the button if it is already active
+            hiddenInput.value = '';
+            button.classList.remove('bg-primary', 'text-white');
+            button.classList.add('bg-gray-300', 'text-gray-800');
+        } else {
+            // Activate the clicked button and deactivate others
+            hiddenInput.value = value;
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('bg-primary', 'text-white');
+                buttons[i].classList.add('bg-gray-300', 'text-gray-800');
+            }
+            button.classList.add('bg-primary', 'text-white');
+            button.classList.remove('bg-gray-300', 'text-gray-800');
+        }
+    }
+
+    // Set the first option as selected by default if no value is provided
+    document.addEventListener('DOMContentLoaded', function() {
+        var hiddenInput = document.getElementById('{{ name }}');
+        if (!hiddenInput.value) {
+            hiddenInput.value = '{{ choices.0.0 }}';
+            var firstButton = hiddenInput.parentElement.querySelector('button');
+            firstButton.classList.add('bg-primary', 'text-white');
+            firstButton.classList.remove('bg-gray-300', 'text-gray-800');
+        }
+    });
+</script>

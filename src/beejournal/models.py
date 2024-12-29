@@ -28,6 +28,7 @@ class Place(BaseModel):
 class Hive(BaseModel):
     number = models.CharField(max_length=8)
     frames = models.IntegerField(blank=True, null=True)
+    height = models.IntegerField(blank=True, null=True)
     place = models.ForeignKey("beejournal.Place", related_name='hives', on_delete=models.PROTECT)
 
     class Meta:
@@ -40,6 +41,9 @@ class Hive(BaseModel):
     @property
     def class_name_danish(self):
         return "Stade"
+
+    def frames_or_height(self):
+        return self.frames or self.height
     
     def get_absolute_url(self):
         return reverse("hive_list")

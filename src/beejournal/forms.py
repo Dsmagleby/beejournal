@@ -40,6 +40,27 @@ class RangeSliderWidget(Widget):
         return int(data.get(name))
 
 
+class ButtonSwitchWidget(Widget):
+    def render(self, name, value, attrs=None, renderer=None):
+        # Get the choices from the field
+        choices = self.choices if hasattr(self, 'choices') else []
+        context = {
+            'name': name,
+            'value': value,
+            'choices': choices,
+            'attrs': attrs,
+        }
+        # Render the HTML for the switch
+        return mark_safe(render_to_string('widgets/button_switch.html', context))
+
+    def value_from_datadict(self, data, files, name):
+        # Extract the value from the submitted data
+        return str(data.get(name))
+
+    def use_required_attribute(self, initial):
+        return False
+
+
 class PlaceForm(BaseModelForm):
     class Meta:
         model = Place
@@ -54,12 +75,21 @@ class PlaceForm(BaseModelForm):
 
 
 class HiveForm(BaseModelForm):
+    frames_or_height = forms.ChoiceField(
+        choices=[('frames', 'Rammer'), ('height', 'Kasser')],
+        widget=ButtonSwitchWidget(),
+        required=False,
+        label='',
+    )
+    frames_or_height_value = forms.IntegerField(
+        required=False,
+        label='',
+    )
     class Meta:
         model = Hive
-        fields = ['number', 'frames', 'place']
+        fields = ['number', 'frames_or_height', 'frames_or_height_value', 'place']
         labels = {
             'number': 'Nummer',
-            'frames': 'Rammer',
             'place': 'Sted',
         }
     
@@ -67,6 +97,9 @@ class HiveForm(BaseModelForm):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
         self.fields['place'].queryset = Place.objects.filter(user=user)
+        if self.instance:
+            self.initial['frames_or_height'] = 'height' if self.instance.height else 'frames'
+            self.initial['frames_or_height_value'] = self.instance.frames or self.instance.height
 
 
 class QueenForm(BaseModelForm):
