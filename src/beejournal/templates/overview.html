@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load custom_filters %}
+{% load static %}
 
 {% block content %}
 <div class="flex flex-col items-center justify-center min-w-screen">
@@ -33,7 +34,16 @@
                         {% for hive in item.hives %}
                             <tr class="hover" onclick="toggleDescription('{{hive.id}}')">
                                 <td>{{ hive.number }}</td>
-                                <td class="text-center">{{ hive.frames_or_height|default:"0" }}</td>
+                                <td class="text-center">
+                                    <div class="flex items-center justify-center">
+                                        {{ hive.frames_or_height|default:"0" }}
+                                        {% if hive.frames %}
+                                            <img src="{% static 'images/honeycomb.svg' %}" alt="Rammer" class="inline-block w-8 h-8 ml-2">
+                                        {% elif hive.height %}
+                                            <img src="{% static 'images/bee-box.svg' %}" alt="Kasser" class="inline-block w-8 h-8 ml-2">
+                                        {% endif %}
+                                    </div>
+                                </td>
                                 <td class="text-center">
                                     {% if hive.queen %}
                                         {{ hive.queen.color|queen_color_badge:hive.queen.get_color_display }}
