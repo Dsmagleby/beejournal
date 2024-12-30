@@ -141,15 +141,28 @@ class QueenForm(BaseModelForm):
 
 
 class InspectionForm(BaseModelForm):
+    frames_or_height = forms.ChoiceField(
+        choices=[('frames', 'Rammer'), ('height', 'Kasser')],
+        widget=ButtonSwitchWidget(),
+        required=False,
+        label='',
+    )
+    frames_or_height_value = forms.IntegerField(
+        required=False,
+        label='',
+    )
     class Meta:
         model = Inspection
         fields = [
-            'hive', 'date', 'comment',
+            'hive', 'date',
+            'frames_or_height', 'frames_or_height_value',
+            'comment',
             'larva', 'egg', 'queen',
             'mood', 'size', 'varroa',
         ]
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
+            'frames_or_height': ButtonSwitchWidget(),
             'mood': RangeSliderWidget(),
             'size': RangeSliderWidget(),
         }
@@ -170,12 +183,17 @@ class InspectionForm(BaseModelForm):
         super().__init__(*args, **kwargs)
         self.fields['hive'].queryset = Hive.objects.filter(user=user)
         self.initial['date'] = timezone.now().date()
+        if self.instance.pk and self.instance.hive:
+            self.initial['frames_or_height'] = 'height' if self.instance.hive.height else 'frames'
+            self.initial['frames_or_height_value'] = self.instance.hive.frames or self.instance.hive.height
         self.helper.layout = Layout(
             Div(
                 Div('hive', css_class='md:w-[50%] md:mr-2'),
                 Div('date', css_class='md:w-[50%] md:ml-2'),
                 css_class='md:flex md:justify-between'
             ),
+            'frames_or_height',
+            'frames_or_height_value',
             'comment',
             Div(
                 Div('larva', css_class='md:w-[33%]'),

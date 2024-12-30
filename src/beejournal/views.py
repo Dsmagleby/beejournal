@@ -196,6 +196,17 @@ class InspectionCreateView(LoginRequiredMixin, CustomCreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        if form.instance.hive:
+            hive = form.instance.hive
+            frames_or_height = form.cleaned_data.get('frames_or_height')
+            frames_or_height_value = form.cleaned_data.get('frames_or_height_value')
+            if frames_or_height == 'frames':
+                hive.frames = frames_or_height_value
+                hive.height = None
+            elif frames_or_height == 'height':
+                hive.height = frames_or_height_value
+                hive.frames = None
+            hive.save()
         return super().form_valid(form)
     
     def get_initial(self):
@@ -204,6 +215,8 @@ class InspectionCreateView(LoginRequiredMixin, CustomCreateView):
         if hive_id:
             hive = Hive.objects.filter(pk=hive_id).first()
             initial['hive'] = hive if hive else None
+            initial['frames_or_height'] = 'height' if hive.height else 'frames'
+            initial['frames_or_height_value'] = hive.frames or hive.height
         return initial
 
 
@@ -211,6 +224,20 @@ class InspectionUpdateView(LoginRequiredMixin, CustomUpdateView):
     model = Inspection
     form_class = InspectionForm
     template_name = "generic_form.html"
+
+    def form_valid(self, form):
+        if form.instance.hive:
+            hive = form.instance.hive
+            frames_or_height = form.cleaned_data.get('frames_or_height')
+            frames_or_height_value = form.cleaned_data.get('frames_or_height_value')
+            if frames_or_height == 'frames':
+                hive.frames = frames_or_height_value
+                hive.height = None
+            elif frames_or_height == 'height':
+                hive.height = frames_or_height_value
+                hive.frames = None
+            hive.save()
+        return super().form_valid(form)
 
 
 class Overview(LoginRequiredMixin, ListView):
