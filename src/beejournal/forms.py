@@ -1,6 +1,7 @@
 from django import forms
 from django.forms.widgets import Widget
 from django.template.loader import render_to_string
+from django.utils import timezone
 from django.utils.safestring import mark_safe
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit, Field
@@ -18,7 +19,9 @@ class BaseModelForm(forms.ModelForm):
         self.helper = FormHelper()
         if not self.helper.layout:
             self.helper.layout = Layout(*self.fields.keys())
-        self.helper.layout.append(Submit('submit', 'Gem', css_class='btn btn-secondary my-2 w-full'))
+        self.helper.layout.append(
+            Submit('submit', 'Gem', css_class='btn btn-secondary my-2 w-full')
+        )
 
 
 class RangeSliderWidget(Widget):
@@ -57,9 +60,6 @@ class ButtonSwitchWidget(Widget):
         # Extract the value from the submitted data
         return str(data.get(name))
 
-    def use_required_attribute(self, initial):
-        return False
-
 
 class PlaceForm(BaseModelForm):
     class Meta:
@@ -87,7 +87,12 @@ class HiveForm(BaseModelForm):
     )
     class Meta:
         model = Hive
-        fields = ['number', 'frames_or_height', 'frames_or_height_value', 'place']
+        fields = [
+            'number',
+            'frames_or_height',
+            'frames_or_height_value',
+            'place',
+        ]
         labels = {
             'number': 'Nummer',
             'place': 'Sted',
@@ -138,12 +143,15 @@ class QueenForm(BaseModelForm):
 class InspectionForm(BaseModelForm):
     class Meta:
         model = Inspection
-        fields = ['hive', 'date', 'comment', 'larva', 'egg', 'queen', 'mood', 'size', 'varroa']
+        fields = [
+            'hive', 'date', 'comment',
+            'larva', 'egg', 'queen',
+            'mood', 'size', 'varroa',
+        ]
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'mood': RangeSliderWidget(),
             'size': RangeSliderWidget(),
-            'varroa': RangeSliderWidget(),
         }
         labels = {
             'hive': 'Stade',
@@ -161,6 +169,7 @@ class InspectionForm(BaseModelForm):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
         self.fields['hive'].queryset = Hive.objects.filter(user=user)
+        self.initial['date'] = timezone.now().date()
         self.helper.layout = Layout(
             Div(
                 Div('hive', css_class='md:w-[50%] md:mr-2'),
@@ -178,4 +187,4 @@ class InspectionForm(BaseModelForm):
             'size',
             'varroa',
             Submit('submit', 'Gem', css_class='btn btn-secondary my-2 w-full'),
-        )   
+        )

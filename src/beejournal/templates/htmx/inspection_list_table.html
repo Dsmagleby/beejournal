@@ -17,7 +17,7 @@
         <td class="text-center">{{ inspection.queen|display_boolean_icon }}</td>
         <td class="text-center">{{ inspection.mood }}</td>
         <td class="text-center">{{ inspection.size }}</td>
-        <td class="text-center">{{ inspection.varroa }}</td>
+        <td class="text-center">{{ inspection.varroa|default:"" }}</td>
         <td class="text-right">
             <a href="{% url 'inspection_update' inspection.id %}" class="btn btn-sm btn-secondary">Rediger</a>
         </td>

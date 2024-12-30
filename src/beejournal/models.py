@@ -91,6 +91,18 @@ class Queen(BaseModel):
         return reverse("queen_list")
 
 
+class Varroa(BaseModel):
+    name = models.CharField(max_length=64)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def class_name_danish(self):
+        return "Varroa"
+
+
 class Inspection(BaseModel):
     hive = models.ForeignKey("beejournal.Hive", related_name='inspections', on_delete=models.PROTECT)
     date = models.DateField()
@@ -100,7 +112,12 @@ class Inspection(BaseModel):
     queen = models.BooleanField(default=False)
     mood = models.IntegerField(default=0)
     size = models.IntegerField(default=0)
-    varroa = models.IntegerField(default=0)
+    varroa = models.ForeignKey(
+        "beejournal.Varroa",
+        related_name='inspections',
+        on_delete=models.PROTECT,
+        blank=True, null=True,
+    )
 
     class Meta:
         ordering = ['-date']
