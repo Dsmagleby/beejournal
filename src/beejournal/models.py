@@ -1,4 +1,6 @@
 from django.db import models
+from django.templatetags.static import static
+from django.utils.safestring import mark_safe
 from django.urls import reverse
 
 from core.models import BaseModel
@@ -44,7 +46,7 @@ class Hive(BaseModel):
 
     def frames_or_height(self):
         return self.frames or self.height
-    
+
     def get_absolute_url(self):
         return reverse("hive_list")
 
@@ -68,11 +70,11 @@ class Queen(BaseModel):
     date = models.DateField()
     comment = models.TextField(blank=True, null=True)
     CHOICES = (
-        ("white", "Hvid"),
-        ("yellow", "Gul"),
-        ("red", "Rød"),
-        ("green", "Grøn"),
-        ("blue", "Blå"),
+        ("white", "Hvid (1-6)"),
+        ("yellow", "Gul (2-7)"),
+        ("red", "Rød (3-8)"),
+        ("green", "Grøn (4-9)"),
+        ("blue", "Blå (5-0)"),
     )
     color = models.CharField(max_length=8, choices=CHOICES, blank=True, null=True)
     marked = models.BooleanField(default=False)
