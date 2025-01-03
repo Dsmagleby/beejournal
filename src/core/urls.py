@@ -27,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', core.views.CustomLoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('register/', core.views.RegisterView.as_view(), name='register'),
     path('', beejournal.views.Overview.as_view(), name='overview'),
     # place views
     path(
