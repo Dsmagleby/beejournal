@@ -16,13 +16,17 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path, include, re_path
 
 import beejournal.views
+import core.views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('login/', core.views.CustomLoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('', beejournal.views.Overview.as_view(), name='overview'),
     # place views
     path(
