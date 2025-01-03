@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit, Field
-from beejournal.models import Place, Hive, Queen, Inspection
+from beejournal.models import Place, Hive, Queen, Inspection, Varroa
 
 
 class BaseModelForm(forms.ModelForm):
@@ -206,3 +206,17 @@ class InspectionForm(BaseModelForm):
             'varroa',
             Submit('submit', 'Gem', css_class='btn btn-secondary my-2 w-full'),
         )
+
+
+class VarroaForm(BaseModelForm):
+    class Meta:
+        model = Varroa
+        fields = ['name', 'description']
+        labels = {
+            'name': 'Navn',
+            'description': 'Beskrivelse',
+        }
+
+    def __init__(self, *args, **kwargs):
+        _ = kwargs.pop('user')
+        super().__init__(*args, **kwargs)

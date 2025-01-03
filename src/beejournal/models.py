@@ -104,6 +104,9 @@ class Varroa(BaseModel):
     def class_name_danish(self):
         return "Varroa"
 
+    def get_absolute_url(self):
+        return reverse("varroa_list")
+
 
 class Inspection(BaseModel):
     hive = models.ForeignKey("beejournal.Hive", related_name='inspections', on_delete=models.PROTECT)

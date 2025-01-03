@@ -88,6 +88,23 @@ urlpatterns = [
         beejournal.views.InspectionListView.as_view(),
         name='inspection_list',
     ),
+    # varroa views
+    path(
+        'varroa/create/',
+        beejournal.views.VarroaCreateView.as_view(),
+        name='varroa_create',
+    ),
+    path(
+        'varroa/<int:pk>/update/',
+        beejournal.views.VarroaUpdateView.as_view(),
+        name='varroa_update',
+    ),
+    path(
+        'varroa/',
+        beejournal.views.VarroaListView.as_view(),
+        name='varroa_list',
+    ),
+
 ]
 
 if settings.DEBUG:

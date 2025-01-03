@@ -10,12 +10,14 @@ from beejournal.forms import (
     InspectionForm,
     PlaceForm,
     QueenForm,
+    VarroaForm,
 )
 from beejournal.models import (
     Inspection,
     Place,
     Hive,
     Queen,
+    Varroa,
 )
 
 
@@ -238,6 +240,44 @@ class InspectionUpdateView(LoginRequiredMixin, CustomUpdateView):
                 hive.frames = None
             hive.save()
         return super().form_valid(form)
+
+
+class VarroaListView(LoginRequiredMixin, ListView):
+    model = Varroa
+    template_name = "varroa_list.html"
+    paginate_by = 20
+
+    def get_queryset(self):
+        return Varroa.objects.filter(user=self.request.user)
+
+    def get_template_names(self, *args, **kwargs):
+        if self.request.htmx:
+            return 'htmx/varroa_list_table.html'
+        return self.template_name
+
+
+class VarroaCreateView(LoginRequiredMixin, CustomCreateView):
+    model = Varroa
+    form_class = VarroaForm
+    template_name = "generic_form.html"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        hive_id = self.kwargs.get('hive_id')
+        if hive_id:
+            hive = Hive.objects.filter(pk=hive_id).first()
+            initial['hive'] = hive if hive else None
+        return initial
+
+
+class VarroaUpdateView(LoginRequiredMixin, CustomUpdateView):
+    model = Varroa
+    form_class = VarroaForm
+    template_name = "generic_form.html"
 
 
 class Overview(LoginRequiredMixin, ListView):

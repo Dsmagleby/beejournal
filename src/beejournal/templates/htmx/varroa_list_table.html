@@ -1,0 +1,20 @@
+{% load custom_filters %}
+
+{% for varroa in object_list %}
+    {% if forloop.last and page_obj.has_next %}
+        <tr hx-get="{% url 'varroa_list' %}?page={{ page_obj.number|add:1 }}"
+            hx-trigger="revealed"
+            hx-swap="afterend"
+            class="hover"
+        >
+    {% else %}
+        <tr class="hover">
+    {% endif %}
+        <tr class="hover">
+            <td>{{ varroa.name }}</td>
+            <td>{{ varroa.description }}</td>
+            <td class="text-right">
+                <a href="{% url 'varroa_update' varroa.id %}" class="btn btn-sm btn-secondary">Rediger</a>
+            </td>
+        </tr>
+{% endfor %}
