@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
+{% block head_title %}mine-bistader.dk - {% if form.instance.id %}Rediger{% else %}Opret{% endif %} {{view.model.class_name_danish}}{% endblock head_title %}
 {% block content %}
 <div class="w-full max-w-2xl mx-auto sm:px6 lg:px-8 p-4">
     <br>
     <h1 class="text-4xl font-bold mb-8">
-        {% if form.instance.id %}Opdater{% else %}Opret{% endif %} {{view.model.class_name_danish}}
+        {% if form.instance.id %}Rediger{% else %}Opret{% endif %} {{view.model.class_name_danish}}
     </h1>
     {% crispy form %}
 </div>

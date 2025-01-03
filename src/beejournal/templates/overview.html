@@ -1,7 +1,9 @@
+<!-- filepath: /c:/Users/dsmag/Documents/beejournalv3/src/beejournal/templates/overview.html -->
 {% extends "base.html" %}
 {% load custom_filters %}
 {% load static %}
 
+{% block head_title %}mine-bistader.dk - Oversigt{% endblock head_title %}
 {% block content %}
 <div class="flex flex-col items-center justify-center min-w-screen">
     <div>
@@ -17,7 +19,9 @@
                 <input 
                     type="radio" name="my_tabs_2" role="tab" class="tab" 
                     aria-label="{{ item.place.name }} ({{item.place.hive_count}})"
-                    {% if forloop.first %}checked="checked"{% endif %}
+                    id="tab-{{ item.place.id }}"
+                    data-location-id="{{ item.place.id }}"
+                    {% if item.place.id == selected_place_id %}checked="checked"{% elif forloop.first and not selected_place_id %}checked="checked"{% endif %}
                 />
                 <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
                     <table class="table">
@@ -65,21 +69,17 @@
                                                     <th class="text-center">Æg</th>
                                                     <th class="text-center">Dronning</th>
                                                     <th class="text-center">Humør</th>
-                                                    <th class="text-center">Størrelse</th>
-                                                    <th class="text-center">Varroa</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {% for inspection in hive.get_inspections %}
                                                     <tr>
-                                                        <td>{{ inspection.date|date:'d/m-Y' }}</td>
+                                                        <td>{{ inspection.date }}</td>
                                                         <td>{{ inspection.comment }}</td>
-                                                        <td class="text-center">{{ inspection.larva|display_boolean_icon }}</td>
-                                                        <td class="text-center">{{ inspection.egg|display_boolean_icon }}</td>
-                                                        <td class="text-center">{{ inspection.queen|display_boolean_icon }}</td>
+                                                        <td class="text-center">{{ inspection.larva }}</td>
+                                                        <td class="text-center">{{ inspection.egg }}</td>
+                                                        <td class="text-center">{{ inspection.queen }}</td>
                                                         <td class="text-center">{{ inspection.mood }}</td>
-                                                        <td class="text-center">{{ inspection.size }}</td>
-                                                        <td class="text-center">{{ inspection.varroa|default:"" }}</td>
                                                     </tr>
                                                 {% endfor %}
                                             </tbody>
@@ -92,30 +92,29 @@
                     </table>
                 </div>
             {% endfor %}
-            <span class="tab"></span>
         </div>
     </div>
 </div>
 
 <script>
-  let activeDescriptionId = null;
+    document.addEventListener('DOMContentLoaded', function() {
+        function updateUrlWithSelectedTab() {
+            const selectedTab = document.querySelector('input[name="my_tabs_2"]:checked');
+            if (selectedTab) {
+                const selectedLocationId = selectedTab.getAttribute('data-location-id');
+                const newUrl = new URL(window.location);
+                newUrl.searchParams.set('id', selectedLocationId);
+                history.pushState(null, '', newUrl);
+            }
+        }
 
-  function toggleDescription(hiveId) {
-    const descriptionRow = document.getElementById(`${hiveId}Description`);
+        const tabs = document.querySelectorAll('input[name="my_tabs_2"]');
+        tabs.forEach(tab => {
+            tab.addEventListener('change', updateUrlWithSelectedTab);
+        });
 
-    if (activeDescriptionId !== null && activeDescriptionId !== hiveId) {
-      const activeDescriptionRow = document.getElementById(`${activeDescriptionId}Description`);
-      activeDescriptionRow.classList.add('hidden');
-    }
-
-    descriptionRow.classList.toggle('hidden');
-
-    if (!descriptionRow.classList.contains('hidden')) {
-      activeDescriptionId = hiveId;
-    } else {
-      activeDescriptionId = null;
-    }
-  }
+        // Run once on page load
+        updateUrlWithSelectedTab();
+    });
 </script>
-{% endblock content %}
-
+{% endblock %}

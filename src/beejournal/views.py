@@ -265,14 +265,6 @@ class VarroaCreateView(LoginRequiredMixin, CustomCreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-    def get_initial(self):
-        initial = super().get_initial()
-        hive_id = self.kwargs.get('hive_id')
-        if hive_id:
-            hive = Hive.objects.filter(pk=hive_id).first()
-            initial['hive'] = hive if hive else None
-        return initial
-
 
 class VarroaUpdateView(LoginRequiredMixin, CustomUpdateView):
     model = Varroa
