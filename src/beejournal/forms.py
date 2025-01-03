@@ -183,6 +183,7 @@ class InspectionForm(BaseModelForm):
         super().__init__(*args, **kwargs)
         self.fields['hive'].queryset = Hive.objects.filter(user=user)
         self.initial['date'] = timezone.now().date()
+        self.fields['varroa'].queryset = Varroa.objects.filter(user=user)
         if self.instance.pk and self.instance.hive:
             self.initial['frames_or_height'] = 'height' if self.instance.hive.height else 'frames'
             self.initial['frames_or_height_value'] = self.instance.hive.frames or self.instance.hive.height
