@@ -89,6 +89,11 @@ urlpatterns = [
         name='inspection_update',
     ),
     path(
+        'inspections/bulk_create/',
+        beejournal.views.InspectionBulkCreateView.as_view(),
+        name='inspection_bulk_create',
+    ),
+    path(
         'inspections/',
         beejournal.views.InspectionListView.as_view(),
         name='inspection_list',

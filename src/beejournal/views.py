@@ -1,12 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.views.generic import (
     CreateView,
     UpdateView,
     ListView,
+    FormView,
 )
 from beejournal.forms import (
     HiveForm,
+    InspectionBulkCreateForm,
     InspectionForm,
     PlaceForm,
     QueenForm,
@@ -45,6 +48,17 @@ class CustomUpdateView(UpdateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+
+class CustomFormView(FormView):
+    """
+    Custom FormView that sets the user on the object before saving
+    and passes the user to the form.
+    """
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
@@ -240,6 +254,31 @@ class InspectionUpdateView(LoginRequiredMixin, CustomUpdateView):
                 hive.frames = None
             hive.save()
         return super().form_valid(form)
+
+
+class InspectionBulkCreateView(LoginRequiredMixin, CustomFormView):
+    template_name = "generic_form.html"
+    form_class = InspectionBulkCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        place = get_object_or_404(Place, id=self.request.GET.get("id"))
+        context["form_title"] = "Opret inspektioner på " + place.name
+        return context
+
+    def form_valid(self, form):
+        place = get_object_or_404(Place, id=self.request.GET.get("id"))
+        hives = Hive.objects.filter(place=place)
+        for hive in hives:
+            Inspection.objects.create(
+                hive=hive,
+                user=self.request.user,
+                **form.cleaned_data
+            )
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse("inspection_list")
 
 
 class VarroaListView(LoginRequiredMixin, ListView):

@@ -23,6 +23,21 @@ class BaseModelForm(forms.ModelForm):
             Submit('submit', 'Gem', css_class='btn btn-secondary my-2 w-full')
         )
 
+class BaseForm(forms.Form):
+    """
+    Adds a submit button to the forms if no layout is defined.
+    If a layout is defined, submit button has to be added manually 
+    within the formhelper layout.
+    """
+    def __init__(self, *args, **kwargs):
+        super(BaseForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        if not self.helper.layout:
+            self.helper.layout = Layout(*self.fields.keys())
+        self.helper.layout.append(
+            Submit('submit', 'Gem', css_class='btn btn-secondary my-2 w-full')
+        )
+
 
 class RangeSliderWidget(Widget):
     def render(self, name, value, attrs=None, renderer=None):
@@ -207,6 +222,29 @@ class InspectionForm(BaseModelForm):
             'varroa',
             Submit('submit', 'Gem', css_class='btn btn-secondary my-2 w-full'),
         )
+
+
+class InspectionBulkCreateForm(BaseForm):
+    date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        label='Dato',
+    )
+    comment = forms.CharField(
+        widget=forms.Textarea(),
+        label='Kommentar',
+        required=False,
+    )
+    varroa = forms.ModelChoiceField(
+        queryset=Varroa.objects.none(),
+        label='Varroa',
+        required=False,
+    )
+ 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['varroa'].queryset = Varroa.objects.filter(user=user)
+        self.initial['date'] = timezone.now().date()
 
 
 class VarroaForm(BaseModelForm):
