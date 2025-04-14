@@ -32,6 +32,15 @@ class Hive(BaseModel):
     frames = models.IntegerField(blank=True, null=True)
     height = models.IntegerField(blank=True, null=True)
     place = models.ForeignKey("beejournal.Place", related_name='hives', on_delete=models.PROTECT)
+    ### fields for queen 
+    CHOICES = (
+        ("white", "Hvid (1-6)"),
+        ("yellow", "Gul (2-7)"),
+        ("red", "Rød (3-8)"),
+        ("green", "Grøn (4-9)"),
+        ("blue", "Blå (5-0)"),
+    )
+    color = models.CharField(max_length=8, choices=CHOICES, blank=True, null=True)  
 
     class Meta:
         unique_together = ['number', 'user', 'place']

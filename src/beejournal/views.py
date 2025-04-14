@@ -216,6 +216,9 @@ class InspectionCreateView(LoginRequiredMixin, CustomCreateView):
             hive = form.instance.hive
             frames_or_height = form.cleaned_data.get('frames_or_height')
             frames_or_height_value = form.cleaned_data.get('frames_or_height_value')
+            queen_color = form.cleaned_data.get('color')
+            if queen_color:
+                hive.color = queen_color
             if frames_or_height == 'frames':
                 hive.frames = frames_or_height_value
                 hive.height = None

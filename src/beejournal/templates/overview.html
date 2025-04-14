@@ -50,8 +50,8 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
-                                    {% if hive.queen %}
-                                        {{ hive.queen.color|queen_color_badge:hive.queen.get_color_display }}
+                                    {% if hive.color %}
+                                        {{ hive.color|queen_color_badge:hive.get_color_display }}
                                     {% endif %}
                                 </td>
                                 <td class="text-right">

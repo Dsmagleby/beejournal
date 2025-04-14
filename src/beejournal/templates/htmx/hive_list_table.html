@@ -25,13 +25,13 @@
             </td>
             <td>{{ hive.place }}</td>
             <td class="text-center">
-                {% if hive.queen %}
-                    {{ hive.queen.color|queen_color_badge:hive.queen.get_color_display }}
+                {% if hive.color %}
+                    {{ hive.color|queen_color_badge:hive.get_color_display }}
                 {% endif %}
             </td>
             <td class="text-right">
                 <a href="{% url 'hive_update' hive.id %}" class="btn btn-sm btn-secondary">Rediger</a>
-                <a href="{% url 'queen_create' hive.id %}" class="btn btn-sm btn-secondary">Tilføj Dronning</a>
+                <!--<a href="{% url 'queen_create' hive.id %}" class="btn btn-sm btn-secondary">Tilføj Dronning</a>-->
                 <a href="{% url 'inspection_create' hive.id %}" class="btn btn-sm btn-secondary">Tilføj Inspektion</a>
             </td>
         </tr>

@@ -100,16 +100,24 @@ class HiveForm(BaseModelForm):
         required=False,
         label='',
     )
+    color = forms.ChoiceField(
+        choices=Hive.CHOICES,
+        widget=forms.RadioSelect(),
+        label='Dronning Farve',
+        required=False,
+    )
     class Meta:
         model = Hive
         fields = [
             'number',
             'frames_or_height',
             'frames_or_height_value',
+            'color',
             'place',
         ]
         labels = {
             'number': 'Nummer',
+            'color': 'Droinning Farve',
             'place': 'Sted',
         }
     
@@ -120,6 +128,14 @@ class HiveForm(BaseModelForm):
         if self.instance:
             self.initial['frames_or_height'] = 'height' if self.instance.height else 'frames'
             self.initial['frames_or_height_value'] = self.instance.frames or self.instance.height
+        self.helper.layout = Layout(
+            'number',
+            'frames_or_height',
+            'frames_or_height_value',
+            Field('color', template='layouts/inline_radio_select.html'),
+            'place',
+            Submit('submit', 'Gem', css_class='btn btn-secondary my-2 w-full'),
+        )
 
 
 class QueenForm(BaseModelForm):
@@ -166,11 +182,18 @@ class InspectionForm(BaseModelForm):
         required=False,
         label='',
     )
+    color = forms.ChoiceField(
+        choices=Hive.CHOICES,
+        widget=forms.RadioSelect(),
+        label='Dronning Farve',
+        required=False,
+    )
     class Meta:
         model = Inspection
         fields = [
             'hive', 'date',
             'frames_or_height', 'frames_or_height_value',
+            'color',
             'comment',
             'larva', 'egg', 'queen',
             'mood', 'size', 'varroa',
@@ -184,6 +207,7 @@ class InspectionForm(BaseModelForm):
         labels = {
             'hive': 'Stade',
             'date': 'Dato',
+            'color': 'Dronning Farve',
             'comment': 'Kommentar',
             'larva': 'Larver',
             'egg': 'Æg',
@@ -202,6 +226,7 @@ class InspectionForm(BaseModelForm):
         if self.instance.pk and self.instance.hive:
             self.initial['frames_or_height'] = 'height' if self.instance.hive.height else 'frames'
             self.initial['frames_or_height_value'] = self.instance.hive.frames or self.instance.hive.height
+            self.initial['color'] = self.instance.hive.color
         self.helper.layout = Layout(
             Div(
                 Div('hive', css_class='md:w-[50%] md:mr-2'),
@@ -210,6 +235,7 @@ class InspectionForm(BaseModelForm):
             ),
             'frames_or_height',
             'frames_or_height_value',
+            Field('color', template='layouts/inline_radio_select.html'),
             'comment',
             Div(
                 Div('larva', css_class='md:w-[33%]'),
