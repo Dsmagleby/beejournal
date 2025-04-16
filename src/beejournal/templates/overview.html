@@ -110,7 +110,7 @@
                 const newUrl = new URL(window.location);
                 newUrl.searchParams.set('id', selectedLocationId);
                 history.pushState(null, '', newUrl);
-
+    
                 // Update the inspection create links
                 const inspectionLinks = document.querySelectorAll('[id^="inspection-create-link-"]');
                 inspectionLinks.forEach(link => {
@@ -119,14 +119,34 @@
                 });
             }
         }
-
+    
+        function setActiveTabFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            if (id) {
+                const tabToActivate = document.querySelector(`input[name="my_tabs_2"][data-location-id="${id}"]`);
+                if (tabToActivate) {
+                    tabToActivate.checked = true;
+                    updateUrlWithSelectedTab();
+                    return;
+                }
+            }
+    
+            // If no id is provided or no matching tab is found, select the first tab
+            const firstTab = document.querySelector('input[name="my_tabs_2"]');
+            if (firstTab) {
+                firstTab.checked = true;
+                updateUrlWithSelectedTab();
+            }
+        }
+    
         const tabs = document.querySelectorAll('input[name="my_tabs_2"]');
         tabs.forEach(tab => {
             tab.addEventListener('change', updateUrlWithSelectedTab);
         });
-
+    
         // Run once on page load
-        updateUrlWithSelectedTab();
+        setActiveTabFromUrl();
     });
 </script>
 

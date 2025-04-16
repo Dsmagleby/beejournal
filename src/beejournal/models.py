@@ -144,4 +144,4 @@ class Inspection(BaseModel):
         return "Inspektion"
 
     def get_absolute_url(self):
-        return reverse("inspection_list")
+        return reverse("overview") + f"?id={self.hive.place.id}"

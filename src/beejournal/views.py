@@ -281,7 +281,8 @@ class InspectionBulkCreateView(LoginRequiredMixin, CustomFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("inspection_list")
+        place = get_object_or_404(Place, id=self.request.GET.get("id"))
+        return reverse("overview") + f"?id={place.id}"
 
 
 class VarroaListView(LoginRequiredMixin, ListView):
@@ -326,9 +327,12 @@ class Overview(LoginRequiredMixin, ListView):
         overview_data = []
         places = Place.objects.filter(user=self.request.user)
         for place in places:
+            hives = Hive.objects.filter(place=place)
+            if not hives.exists():
+                continue
             place_data = {
                 'place': place,
-                'hives': Hive.objects.filter(place=place),
+                'hives': hives,
             }
             overview_data.append(place_data)
         context['overview_data'] = overview_data
