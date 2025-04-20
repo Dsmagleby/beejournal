@@ -203,6 +203,7 @@ class InspectionForm(BaseModelForm):
             'frames_or_height': ButtonSwitchWidget(),
             'mood': RangeSliderWidget(),
             'size': RangeSliderWidget(),
+            'comment': forms.Textarea(attrs={'rows': 2}),
         }
         labels = {
             'hive': 'Stade',
@@ -236,7 +237,6 @@ class InspectionForm(BaseModelForm):
             'frames_or_height',
             'frames_or_height_value',
             Field('color', template='layouts/inline_radio_select.html'),
-            'comment',
             Div(
                 Div('larva', css_class='md:w-[33%]'),
                 Div('egg', css_class='md:w-[33%]'),
@@ -246,6 +246,7 @@ class InspectionForm(BaseModelForm):
             'mood',
             'size',
             'varroa',
+            'comment',
             Submit('submit', 'Gem', css_class='btn btn-secondary my-2 w-full'),
         )
 
@@ -255,14 +256,14 @@ class InspectionBulkCreateForm(BaseForm):
         widget=forms.DateInput(attrs={'type': 'date'}),
         label='Dato',
     )
-    comment = forms.CharField(
-        widget=forms.Textarea(),
-        label='Kommentar',
-        required=False,
-    )
     varroa = forms.ModelChoiceField(
         queryset=Varroa.objects.none(),
         label='Varroa',
+        required=False,
+    )
+    comment = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 2}),
+        label='Kommentar',
         required=False,
     )
  
